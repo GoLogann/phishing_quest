@@ -1,68 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:phishing_quest/app/data/util/helpers/index.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'app/data/enumerators/storage_keys.enum.dart';
+import 'app/data/storage/memory_storage.dart';
+import 'app/main_getx_app.dart';
+import 'app/modules/initial/flow_initial/flow_initial_module.dart';
+
+void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await initProviders();
+
+  final initialPage = getInitPage();
+  FlutterNativeSplash.remove();
+
+  runApp(
+    ScreenUtilInit(
+      designSize: const Size(430, 932),
+      ensureScreenSize: true,
+      splitScreenMode: false,
+      builder: (_, __) => MainGetXApp(initialPage),
+    ),
+  );
+
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+String getInitPage() {
+  final authToken = MemoryStore(StorageKeys.USER_TOKEN).read<String>() ?? '';
+  if (authToken.isEmpty) {
+    return FlowInitialModule.path;
   }
+  return '';
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+Future<void> initProviders() async {
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await GetStorage.init();
 
-  final String title;
+  await Helpers().setLocalMode(false);
+  // await Get.put<PqApiClient>(PqApiClient());
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  await ScreenUtil.ensureScreenSize();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
