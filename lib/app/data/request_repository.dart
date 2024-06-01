@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' hide Response;
 
 typedef ValidResponse<T> = ({bool valid, String? reason, T? data});
 
