@@ -8,7 +8,7 @@ class FlowInitialView extends GetView<FlowInitialController> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     throw UnimplementedError();
   }
 }
