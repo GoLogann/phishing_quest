@@ -15,7 +15,6 @@ class MainGetXApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
-        // statusBarColor: AppTheme.colors.black,
       ),
     );
 
@@ -24,7 +23,6 @@ class MainGetXApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: initialPage,
       getPages: AppPages.routes,
-      // theme: AppTheme.defaultTheme,
       locale: const Locale('pt', 'BR'),
       supportedLocales: const [Locale('pt', 'BR')],
       localizationsDelegates: const [

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:phishing_quest/app/data/util/helpers/index.dart';
 
 import 'app/data/enumerators/storage_keys.enum.dart';
+import 'app/data/providers/pq_api_client/pq_api_client.provider.dart';
 import 'app/data/storage/memory_storage.dart';
 import 'app/main_getx_app.dart';
 import 'app/modules/initial/flow_initial/flow_initial_module.dart';
@@ -42,7 +44,7 @@ Future<void> initProviders() async {
   await GetStorage.init();
 
   await Helpers().setLocalMode(false);
-  // await Get.put<PqApiClient>(PqApiClient());
+  await Get.put<PqApiClient>(PqApiClient());
 
   await ScreenUtil.ensureScreenSize();
 }
