@@ -10,21 +10,21 @@ import 'package:phishing_quest/app/data/util/helpers/index.dart';
 typedef Header = Map<String, dynamic>;
 typedef Request = Future<Response> Function();
 
-/// `GtApiClient` serves as a HTTP client.
+/// `PqApiClient` serves as a HTTP client.
 /// It has methods for processing GET, POST, PUT HTTP requests.
 /// It utilizes the Dio HTTP client under the hood for sending these requests.
 /// Errors encountered during requests are caught and logging is done using the Debugger class.
 /// API related helpers are accessed from the ApiHelpers class.
-class GtApiClient extends GetxService implements IPqApiClient {
+class PqApiClient extends GetxService implements IPqApiClient {
   late final Dio _dio;
   late final Helpers _helpers;
   late final ApiHelpers _apiHelpers;
 
-  /// Constructs a `GtApiClient` instance.
+  /// Constructs a `PqApiClient` instance.
   ///
   /// - `apiHelpers` - Instance of ApiHelpers.
   /// - `dio` - Dio HTTP client instance.
-  GtApiClient({
+  PqApiClient({
     ApiHelpers? apiHelpers,
     Helpers? helpers,
     Dio? dio,
