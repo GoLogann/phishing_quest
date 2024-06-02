@@ -13,7 +13,7 @@ const EnvironmentProperties LOCAL_ENV = EnvironmentProperties(
 const EnvironmentProperties PRODUCTION_ENV = EnvironmentProperties(
   cacheLifespan: 300000, // 5 minutes
   endpoint: EndpointProperties(
-    projeto: 'http://projeto-plataformagt.gtconsultoria.com.br/api/v1',
+    projeto: 'http://projeto-phishingquest.labsc.com.br/api/v1',
     timeout: 80,
   ),
 );
