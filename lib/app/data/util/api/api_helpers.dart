@@ -125,11 +125,11 @@ class ApiHelpers {
   /// Params:
   ///  - [url] - the specific endpoint to which the request is made
   ///  - [endpoint] - the base part of the API url, which can be different based on the environment.
-  String buildUrl({required String url, Endpoints endpoint = Endpoints.PROJETO}) {
+  String buildUrl({required String url, Endpoints endpoint = Endpoints.PHISHING_QUEST}) {
     final endpointEnv = _helpers.isLocalMode() ? LOCAL_ENV.endpoint : PRODUCTION_ENV.endpoint;
 
     switch (endpoint) {
-      case Endpoints.PROJETO:
+      case Endpoints.PHISHING_QUEST:
         return '${endpointEnv.projeto}$url';
     }
   }
