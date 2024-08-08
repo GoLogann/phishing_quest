@@ -5,12 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:phishing_quest/app/data/util/helpers/index.dart';
+import 'package:phishing_quest/app/modules/register/userRegister/user_register_module.dart';
 
-import 'app/data/enumerators/storage_keys.enum.dart';
 import 'app/data/providers/pq_api_client/pq_api_client.provider.dart';
-import 'app/data/storage/memory_storage.dart';
 import 'app/main_getx_app.dart';
-import 'app/modules/initial/flow_initial/flow_initial_module.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -32,11 +30,7 @@ void main() async {
 }
 
 String getInitPage() {
-  final authToken = MemoryStore(StorageKeys.USER_TOKEN).read<String>() ?? '';
-  if (authToken.isEmpty) {
-    return FlowInitialModule.path;
-  }
-  return '';
+  return UserRegisterModule.path;;
 }
 
 Future<void> initProviders() async {
