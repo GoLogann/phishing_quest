@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:phishing_quest/app/data/controllers/base_controller.dart';
 import 'package:phishing_quest/app/data/repositories/register/register_repository.dart';
 import 'package:phishing_quest/app/global_ui/components/toast.dart';
+import 'package:phishing_quest/app/modules/home_page/home_page_module.dart';
 
 class UserRegisterController extends BaseController {
   final TextEditingController usernameController = TextEditingController();
@@ -36,7 +37,7 @@ class UserRegisterController extends BaseController {
         return Toast.error('Não foi possível realizar o cadastro', register.reason!, delayed: true);
       }
     
-      // Get.offAllNamed(HomeModule.path);
+      Get.offAllNamed(HomePageModule.path);
       setLoading(false);
     }
   }

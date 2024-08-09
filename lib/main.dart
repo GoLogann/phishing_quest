@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:phishing_quest/app/data/util/helpers/index.dart';
-import 'package:phishing_quest/app/modules/register/userRegister/user_register_module.dart';
+import 'package:phishing_quest/app/modules/initial/flow_initial/flow_initial_module.dart';
 
 import 'app/data/providers/pq_api_client/pq_api_client.provider.dart';
 import 'app/main_getx_app.dart';
@@ -30,7 +30,7 @@ void main() async {
 }
 
 String getInitPage() {
-  return UserRegisterModule.path;;
+  return  FlowInitialModule.path;
 }
 
 Future<void> initProviders() async {

@@ -4,7 +4,7 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:phishing_quest/app/global_ui/app_theme.dart';
 import 'package:phishing_quest/app/global_ui/components/border_input.dart';
 import 'package:phishing_quest/app/global_ui/components/button.dart';
-import 'package:phishing_quest/app/modules/register/userRegister/user_register_controller.dart';
+import 'package:phishing_quest/app/modules/initial/register/userRegister/user_register_controller.dart';
 
 class UserRegisterView extends GetView<UserRegisterController> {
   const UserRegisterView({super.key});
@@ -27,9 +27,10 @@ class UserRegisterView extends GetView<UserRegisterController> {
               Padding(
                 padding: EdgeInsets.only(bottom: 10.h, left: 25.w),
                 child: Text(
-                  'Cadastrar dados pessoais',
-                  style: AppTheme.textStyles.title.copyWith(
-                    color: AppTheme.colors.primaryDark,
+                  'Cadastre-se',
+                  style: AppTheme.textStyles.header.copyWith(
+
+                    color: const Color(0xFFFBA400A),
                     fontWeight: FontWeight.w800,
                   ),
                 ),
