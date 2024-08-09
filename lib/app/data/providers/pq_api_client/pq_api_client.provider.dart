@@ -65,9 +65,9 @@ class PqApiClient extends GetxService implements IPqApiClient {
   Future<Response> post(String url, dynamic body, {Map<String, dynamic> headers = const {}}) {
     final options = _apiHelpers.generateOptions();
     options.headers?.addAll(headers);
-    // final data = body is String ? _apiHelpers.cleanupPayload(body) : body;
 
-    return _sendRequest(() => _dio.post(url, data: body, options: options));
+    final response = _dio.post(url, data: body, options: options);
+    return response;
   }
 
   @override
