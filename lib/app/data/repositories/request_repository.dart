@@ -1,5 +1,5 @@
+import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:phishing_quest/app/data/providers/pq_api_client/pq_api_client.provider.dart';
 import 'package:phishing_quest/app/data/util/api/api_exception_handler.dart';
 import 'package:phishing_quest/app/data/util/api/api_helpers.dart';
@@ -16,15 +16,10 @@ abstract base class RequestRepository {
       return (valid: true, reason: null, data: null);
     }
 
-    // if (statusCode == HttpStatus.unauthorized && Get.currentRoute != LoginModule.path) {
-    //   // Get.offAllNamed(LoginModule.path);
-    //   return (valid: false, reason: '401', data: null);
-    // }
-
     return (
       valid: false,
       data: null,
-      reason: ApiExceptionHandler.handleError(statusCode, response.body),
+      reason: ApiExceptionHandler.handleError(statusCode, response.data),
     );
   }
 }
