@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:phishing_quest/app/data/util/helpers/index.dart';
 
-import '../request_repository.dart';
+import 'package:phishing_quest/app/data/repositories/request_repository.dart';
 
 class BaseController extends GetxController {
   final Helpers helpers = Helpers();
