@@ -3,6 +3,7 @@ import 'package:phishing_quest/app/data/enumerators/user_role.enum.dart';
 import 'package:phishing_quest/app/data/models/answer.model.dart';
 import 'package:phishing_quest/app/data/models/answer_result.model.dart';
 import 'package:phishing_quest/app/data/models/category.model.dart';
+import 'package:phishing_quest/app/data/models/inbox_email.model.dart';
 import 'package:phishing_quest/app/data/models/phishing_email.model.dart';
 import 'package:phishing_quest/app/data/models/question.model.dart';
 import 'package:phishing_quest/app/data/models/ranking_entry.model.dart';
@@ -374,4 +375,129 @@ Banco do Brasil''',
     score: 0,
     createdAt: DateTime(2025, 6, 1),
   );
+
+  // ==================== EMAILS LEGITIMOS (SIMULACAO) ====================
+  static final List<InboxEmailModel> legitimateEmails = [
+    InboxEmailModel(
+      id: 'le-001',
+      receptor: 'joao.silva@empresa.com',
+      remetente: 'rh@empresa.com.br',
+      remetenteNome: 'RH Empresa',
+      assunto: 'Lembrete: Avaliacao de Desempenho Semestral',
+      conteudo: '''Prezado(a) Joao,
+
+Gostaríamos de lembrar que o período de avaliação de desempenho semestral está aberto até o dia 15 deste mês.
+
+Por favor, acesse o portal interno de RH para preencher sua autoavaliação. Caso tenha dúvidas, procure seu gestor direto ou entre em contato com o setor de RH pelo ramal 4500.
+
+Atenciosamente,
+Departamento de Recursos Humanos
+Empresa S.A.''',
+      links: [],
+      isPhishing: false,
+      explicacao: 'Este é um email legítimo. O domínio é correto (@empresa.com.br), não solicita credenciais, não contém links externos suspeitos e orienta o funcionário a usar o portal interno.',
+      nivel: 'easy',
+      categoria: 'corporativo',
+      receivedAt: DateTime(2026, 3, 2, 9, 15),
+      hasAttachment: false,
+    ),
+    InboxEmailModel(
+      id: 'le-002',
+      receptor: 'joao.silva@empresa.com',
+      remetente: 'newsletter@linkedin.com',
+      remetenteNome: 'LinkedIn',
+      assunto: 'Joao, 5 vagas que combinam com seu perfil',
+      conteudo: '''Olá Joao,
+
+Encontramos novas oportunidades de emprego que combinam com seu perfil e experiência.
+
+1. Analista de Segurança da Informação - TechCorp
+2. Especialista em Cybersecurity - SafeNet Solutions
+3. Consultor de TI - DataShield
+4. Engenheiro de Redes - CloudSecure
+5. Analista SOC - DefensePro
+
+Acesse o LinkedIn para ver mais detalhes sobre essas vagas.
+
+Você está recebendo este email porque ativou alertas de vagas.
+Para gerenciar suas preferências de email, acesse suas configurações.
+
+LinkedIn Corporation, 1000 W Maude Ave, Sunnyvale, CA 94085''',
+      links: [],
+      isPhishing: false,
+      explicacao: 'Este é um email legítimo do LinkedIn. O domínio é correto (@linkedin.com), o conteúdo é personalizado, não solicita credenciais e contém informações corporativas reais no rodapé.',
+      nivel: 'easy',
+      categoria: 'corporativo',
+      receivedAt: DateTime(2026, 3, 2, 8, 30),
+      hasAttachment: false,
+    ),
+    InboxEmailModel(
+      id: 'le-003',
+      receptor: 'joao.silva@empresa.com',
+      remetente: 'ti@empresa.com.br',
+      remetenteNome: 'TI Empresa',
+      assunto: 'Manutencao Programada - Sabado 08/03',
+      conteudo: '''Prezados colaboradores,
+
+Informamos que no sábado, dia 08/03/2026, realizaremos uma manutenção programada nos servidores de email e VPN corporativa.
+
+Período: 22h00 às 02h00 (domingo)
+Serviços afetados: Email corporativo, VPN, SharePoint
+
+Durante este período, os serviços estarão indisponíveis. Pedimos que planejem suas atividades com antecedência.
+
+Em caso de urgência durante a manutenção, entre em contato pelo plantão de TI: (11) 9999-8888.
+
+Equipe de Infraestrutura de TI
+Empresa S.A.''',
+      links: [],
+      isPhishing: false,
+      explicacao: 'Email legítimo da equipe de TI. Domínio correto (@empresa.com.br), não pede credenciais, informa sobre manutenção com detalhes claros e fornece contato alternativo por telefone.',
+      nivel: 'medium',
+      categoria: 'corporativo',
+      receivedAt: DateTime(2026, 3, 1, 16, 45),
+      hasAttachment: false,
+    ),
+    InboxEmailModel(
+      id: 'le-004',
+      receptor: 'joao.silva@empresa.com',
+      remetente: 'noreply@nubank.com.br',
+      remetenteNome: 'Nubank',
+      assunto: 'Sua fatura de fevereiro esta disponivel',
+      conteudo: '''Olá, Joao!
+
+Sua fatura do cartão Nubank referente a fevereiro/2026 já está disponível.
+
+Valor total: R\$ 1.247,83
+Vencimento: 10/03/2026
+
+Para consultar sua fatura completa, abra o aplicativo do Nubank no seu celular.
+
+Lembre-se: o Nubank nunca pede sua senha por email ou telefone.
+
+Nubank S.A. - CNPJ: 18.236.120/0001-58''',
+      links: [],
+      isPhishing: false,
+      explicacao: 'Email legítimo do Nubank. Domínio correto (@nubank.com.br), não contém links clicáveis (orienta abrir o app), inclui aviso de segurança sobre senhas e CNPJ real da empresa.',
+      nivel: 'medium',
+      categoria: 'corporativo',
+      receivedAt: DateTime(2026, 3, 1, 10, 0),
+      hasAttachment: false,
+    ),
+  ];
+
+  // ==================== INBOX SIMULACAO ====================
+  static List<InboxEmailModel> get simulationInbox {
+    final phishing = phishingEmails.asMap().entries.map((entry) {
+      final hours = [3, 5, 7, 12];
+      return InboxEmailModel.fromPhishingEmail(
+        entry.value,
+        receivedAt: DateTime(2026, 3, 2, 14, 0).subtract(Duration(hours: hours[entry.key % hours.length])),
+      );
+    }).toList();
+
+    final combined = [...phishing, ...legitimateEmails];
+    combined.shuffle();
+    return combined;
+  }
 }
