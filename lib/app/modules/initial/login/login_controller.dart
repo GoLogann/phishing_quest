@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phishing_quest/app/data/controllers/base_controller.dart';
 import 'package:phishing_quest/app/data/repositories/login/login_repository.dart';
+import 'package:phishing_quest/app/data/services/auth_service.dart';
 import 'package:phishing_quest/app/global_ui/components/toast.dart';
-import 'package:phishing_quest/app/modules/home_page/home_page_module.dart';
 import 'package:phishing_quest/app/modules/initial/register/userRegister/user_register_module.dart';
 
 class LoginController extends BaseController {
@@ -20,9 +20,6 @@ class LoginController extends BaseController {
       passController.text = '123123123';
     }
 
-    // CachedRequest(key: StorageKeys.PROFILE_INFO).invalidateCache();
-    // CachedRequest(key: StorageKeys.ACTIVE_NOTICES).invalidateCache();
-    // MemoryStore(StorageKeys.USER_TOKEN).remove();
     setLoading(false);
   }
 
@@ -43,7 +40,6 @@ class LoginController extends BaseController {
       return 'Campo obrigatório';
     }
 
-    // TODO: Adicionar a regra de negócio para a senha
     if (password!.length <= 4) {
       return 'Senha não pode ser menor que 4 dígitos';
     }
@@ -55,14 +51,37 @@ class LoginController extends BaseController {
     if (loginFormKey.currentState?.validate() ?? false) {
       setLoading(true);
 
-      final loginRepo = await LoginRepository().login(
-        email: emailController.text,
-        password: passController.text,
-      );
+      try {
+        final loginRepo = LoginRepository();
+        final result = await loginRepo.login(
+          email: emailController.text,
+          password: passController.text,
+        );
 
-      print(loginRepo);
+        if (!result.valid) {
+          setLoading(false);
+          Toast.error('Erro no login', result.reason ?? 'Tente novamente');
+          return;
+        }
 
-      Get.offAllNamed(HomePageModule.path);
+        // Save token and user data
+        final authService = Get.find<AuthService>();
+        await authService.login(
+          token: 'mock-token-${DateTime.now().millisecondsSinceEpoch}',
+          userData: {
+            'id': 'u-current',
+            'username': emailController.text.split('@').first,
+            'email': emailController.text,
+            'role': 'player',
+            'score': 0,
+          },
+        );
+
+        Get.offAllNamed('/main');
+      } catch (_) {
+        Toast.error('Erro', 'Não foi possível realizar o login');
+      }
+
       setLoading(false);
     }
   }
