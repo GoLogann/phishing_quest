@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:phishing_quest/app/data/repositories/request_repository.dart';
 import 'login_repository.interface.dart';
 
@@ -11,7 +9,7 @@ final class LoginRepository extends RequestRepository implements ILoginRepositor
     required String email,
     required String password,
   }) async {
-    const url = 'https://44d3-45-228-140-19.ngrok-free.app/api/v1/users/login';
+    final url = apiHelpers.buildUrl(url: loginUrlProduction);
 
     final body = {
       'email': email,
