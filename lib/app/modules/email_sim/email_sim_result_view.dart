@@ -222,13 +222,13 @@ class EmailSimResultView extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        email.sender,
+                                        email.remetenteNome,
                                         style: AppTheme.textStyles.posLabel.copyWith(
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       Text(
-                                        email.subject,
+                                        email.assunto,
                                         style: AppTheme.textStyles.label.copyWith(
                                           color: AppTheme.colors.textSecondary,
                                           fontSize: 12.sp,
