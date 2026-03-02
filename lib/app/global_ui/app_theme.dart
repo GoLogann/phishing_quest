@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   AppTheme._();
@@ -9,128 +10,183 @@ class AppTheme {
 
   static final defaultTheme = ThemeData(
     useMaterial3: true,
-    primaryColor: AppTheme.colors.primary,
-    fontFamily: 'Poppins',
-    cardColor: AppTheme.colors.white,
-    colorScheme: ColorScheme(
-      brightness: Brightness.light,
-      primary: AppTheme.colors.primary,
-      onPrimary: AppTheme.colors.white,
-      secondary: AppTheme.colors.secondary,
-      onSecondary: AppTheme.colors.white,
-      error: AppTheme.colors.error,
-      onError: AppTheme.colors.white,
-      background: AppTheme.colors.white,
-      onBackground: AppTheme.colors.black,
-      surface: AppTheme.colors.white,
-      onSurface: AppTheme.colors.black,
+    brightness: Brightness.dark,
+    primaryColor: colors.primary,
+    scaffoldBackgroundColor: colors.backgroundDark,
+    fontFamily: GoogleFonts.poppins().fontFamily,
+    cardColor: colors.backgroundCard,
+    colorScheme: ColorScheme.dark(
+      brightness: Brightness.dark,
+      primary: colors.primary,
+      onPrimary: colors.textPrimary,
+      secondary: colors.accent,
+      onSecondary: colors.textPrimary,
+      error: colors.error,
+      onError: colors.textPrimary,
+      surface: colors.backgroundCard,
+      onSurface: colors.textPrimary,
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      centerTitle: true,
+      titleTextStyle: GoogleFonts.poppins(
+        color: colors.textPrimary,
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w600,
+      ),
+      iconTheme: IconThemeData(color: colors.textPrimary),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: colors.backgroundCard,
+      selectedItemColor: colors.primary,
+      unselectedItemColor: colors.textSecondary,
+      type: BottomNavigationBarType.fixed,
+      elevation: 0,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: colors.backgroundCard,
+      hintStyle: TextStyle(color: colors.textSecondary),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16.r),
+        borderSide: BorderSide(color: colors.surfaceBorder),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16.r),
+        borderSide: BorderSide(color: colors.surfaceBorder),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16.r),
+        borderSide: BorderSide(color: colors.primary, width: 2),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16.r),
+        borderSide: BorderSide(color: colors.error),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colors.primary,
+        foregroundColor: colors.textPrimary,
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        textStyle: GoogleFonts.poppins(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     ),
     bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: AppTheme.colors.white,
-      surfaceTintColor: AppTheme.colors.white,
-      shape: const RoundedRectangleBorder(),
+      backgroundColor: colors.backgroundCard,
+      surfaceTintColor: colors.backgroundCard,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+      ),
     ),
-    drawerTheme: DrawerThemeData(
-      backgroundColor: AppTheme.colors.white,
-      endShape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(5),
-          bottomLeft: Radius.circular(5),
-        ),
+    dialogTheme: DialogThemeData(
+      backgroundColor: colors.backgroundCard,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24.r),
       ),
     ),
   );
 }
 
 class _AppColors {
-  final Color secondary = Color(0xFFE17900);
-  final Color primary = Color(0xFF1A2F43);
-  final Color primaryOpacity = Color(0x141A2F43);
-  final Color primaryDark = Color(0xFF0A131C);
-  final Color primaryLight = Color(0xFF33526F);
-  final Color primaryLightBorder = Color(0x2933526F);
-  final Color white = Color(0xFFFFFFFF);
-  final Color whiteDark = Color(0xFFE8EAEB);
-  final Color whiteLight = Color(0xFFEFF4F2);
+  // === Dark Ocean Palette ===
+  final Color backgroundDark = const Color(0xFF0F172A);
+  final Color backgroundCard = const Color(0xFF1E293B);
+  final Color surfaceBorder = const Color(0xFF334155);
 
-  final Color sucess = Color(0xFF47CB19);
-  final Color error = Color(0xFFE41A1A);
-  final Color errorOpacity = Color(0x14E41A1A);
-  final Color alert = Color(0xFFFFC107);
+  // Primary & Accent
+  final Color primary = const Color(0xFF3B82F6);
+  final Color primaryLight = const Color(0xFF60A5FA);
+  final Color primaryDark = const Color(0xFF1D4ED8);
+  final Color accent = const Color(0xFFF97316);
+  final Color accentLight = const Color(0xFFFBBF24);
 
-  final Color badgeTypeOfResource = Color(0xFF9747FF);
-  final Color badgePublicResource = Color(0xFF256DFB);
-  final Color badgePrivateResource = Color(0xFFFF4747);
+  // Status colors
+  final Color success = const Color(0xFF22C55E);
+  final Color error = const Color(0xFFEF4444);
+  final Color warning = const Color(0xFFFBBF24);
+  final Color info = const Color(0xFF06B6D4);
 
-  final Color black = Color(0xFF000000);
-  final Color backOpacity = Color(0x42000000);
+  // Text
+  final Color textPrimary = const Color(0xFFF8FAFC);
+  final Color textSecondary = const Color(0xFF94A3B8);
+  final Color textMuted = const Color(0xFF64748B);
 
-  final Color redYoutube = Color(0xFFFF0000);
-  final Color blackTiktok = Color(0xFF0F0F0F);
-  final Color goldenWebsite = Color(0xFFFF7900);
-  final Color blueLinkedin = Color(0xFF0A66C2);
+  // Difficulty colors
+  final Color difficultyEasy = const Color(0xFF22C55E);
+  final Color difficultyMedium = const Color(0xFFF97316);
+  final Color difficultyHard = const Color(0xFFEF4444);
 
-  final Color color1Instagram = Color(0xFFFDB051);
-  final Color color2Instagram = Color(0xFFF33240);
-  final Color color3Instagram = Color(0xFFCB2684);
-  final Color color4Instagram = Color(0xFF2F216C);
+  // Ranking
+  final Color gold = const Color(0xFFFBBF24);
+  final Color silver = const Color(0xFF94A3B8);
+  final Color bronze = const Color(0xFFCD7F32);
 
-  final Color grey = const Color(0xFFefeff5);
+  // Glow effects
+  final Color primaryGlow = const Color(0x333B82F6);
+  final Color accentGlow = const Color(0x33F97316);
+
+  // Legacy compat
+  Color get secondary => accent;
+  Color get white => textPrimary;
+  Color get black => backgroundDark;
+  Color get primaryOpacity => const Color(0x143B82F6);
+  Color get whiteDark => backgroundCard;
+  Color get whiteLight => surfaceBorder;
+  Color get primaryLightBorder => surfaceBorder;
+  Color get grey => surfaceBorder;
+  Color get sucess => success;
+  Color get alert => warning;
+  Color get backOpacity => const Color(0x42000000);
+  Color get badgeTypeOfResource => const Color(0xFF9747FF);
+  Color get badgePublicResource => const Color(0xFF256DFB);
+  Color get badgePrivateResource => const Color(0xFFFF4747);
+  Color get redYoutube => const Color(0xFFFF0000);
+  Color get blackTiktok => const Color(0xFF0F0F0F);
+  Color get goldenWebsite => const Color(0xFFFF7900);
+  Color get blueLinkedin => const Color(0xFF0A66C2);
+  Color get color1Instagram => const Color(0xFFFDB051);
+  Color get color2Instagram => const Color(0xFFF33240);
+  Color get color3Instagram => const Color(0xFFCB2684);
+  Color get color4Instagram => const Color(0xFF2F216C);
+  Color get errorOpacity => const Color(0x14EF4444);
 }
-
-//TODO: REFATORAR O NOME DOS TEXTOS?
 
 class _AppTextStyles {
   static final TextStyle _default = TextStyle(
-    color: AppTheme.colors.black,
-    fontFamily: 'Poppins',
+    color: AppTheme.colors.textPrimary,
+    fontFamily: GoogleFonts.poppins().fontFamily,
   );
 
-  /// Color: Black
-  /// Size: 48
-  final TextStyle superDisplay = _default.copyWith(fontSize: 48.sp);
-
-  /// Color: Black
-  /// Size: 28
-  final TextStyle display = _default.copyWith(fontSize: 28.sp);
-
-  /// Color: Black
-  /// Size: 25
-  final TextStyle posHeader = _default.copyWith(fontSize: 25.sp);
-
-  /// Color: Black
-  /// Size: 24
-  final TextStyle header = _default.copyWith(fontSize: 24.sp);
-
-  /// Color: Black
-  /// Size: 20
-  final TextStyle title = _default.copyWith(fontSize: 20.sp);
-
-  /// Color: Black
-  /// Size: 18
-  final TextStyle posSubTitle = _default.copyWith(fontSize: 18.sp);
-
-  /// Color: Black
-  /// Size: 16
-  final TextStyle subTitle = _default.copyWith(fontSize: 16.sp);
-
-  /// Color: Black
-  /// Size: 14
-  final TextStyle posLabel = _default.copyWith(fontSize: 14);
-
-  /// Color: Black
-  /// Size: 13
+  /// 48sp
+  final TextStyle superDisplay = _default.copyWith(fontSize: 48.sp, fontWeight: FontWeight.w800);
+  /// 28sp
+  final TextStyle display = _default.copyWith(fontSize: 28.sp, fontWeight: FontWeight.w700);
+  /// 25sp
+  final TextStyle posHeader = _default.copyWith(fontSize: 25.sp, fontWeight: FontWeight.w700);
+  /// 24sp
+  final TextStyle header = _default.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w600);
+  /// 20sp
+  final TextStyle title = _default.copyWith(fontSize: 20.sp, fontWeight: FontWeight.w600);
+  /// 18sp
+  final TextStyle posSubTitle = _default.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500);
+  /// 16sp
+  final TextStyle subTitle = _default.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500);
+  /// 14sp
+  final TextStyle posLabel = _default.copyWith(fontSize: 14.sp);
+  /// 13sp
   final TextStyle prePosLabel = _default.copyWith(fontSize: 13.sp);
-
-  /// Color: Black
-  /// Size: 12
+  /// 12sp
   final TextStyle label = _default.copyWith(fontSize: 12.sp);
-
-  /// Color: Black
-  /// Size: 11
+  /// 11sp
   final TextStyle preLabel = _default.copyWith(fontSize: 11.sp);
-
-  /// Color: Black
-  /// Size: 10
+  /// 10sp
   final TextStyle prepreLabel = _default.copyWith(fontSize: 10.sp);
 }
