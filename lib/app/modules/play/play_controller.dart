@@ -4,10 +4,13 @@ import 'package:phishing_quest/app/data/mock/mock_data.dart';
 import 'package:phishing_quest/app/data/models/category.model.dart';
 import 'package:phishing_quest/app/data/repositories/category/category_repository.dart';
 
+enum GameMode { quiz, emailSim }
+
 class PlayController extends GetxController {
   final RxList<CategoryModel> categories = <CategoryModel>[].obs;
   final Rx<CategoryModel?> selectedCategory = Rx<CategoryModel?>(null);
   final Rx<Difficulty> selectedDifficulty = Difficulty.medium.obs;
+  final Rx<GameMode?> selectedMode = Rx<GameMode?>(null);
   final RxBool isLoading = true.obs;
 
   @override
@@ -27,6 +30,12 @@ class PlayController extends GetxController {
     isLoading.value = false;
   }
 
+  void selectMode(GameMode mode) {
+    selectedMode.value = mode;
+    // Reset category selection when changing modes
+    selectedCategory.value = null;
+  }
+
   void selectCategory(CategoryModel category) {
     selectedCategory.value = category;
   }
@@ -36,7 +45,9 @@ class PlayController extends GetxController {
   }
 
   void startGame() {
-    if (selectedCategory.value != null) {
+    if (selectedMode.value == GameMode.emailSim) {
+      startEmailSim();
+    } else if (selectedCategory.value != null) {
       Get.toNamed(
         '/game',
         arguments: {
@@ -46,5 +57,9 @@ class PlayController extends GetxController {
         },
       );
     }
+  }
+
+  void startEmailSim() {
+    Get.toNamed('/email-sim');
   }
 }

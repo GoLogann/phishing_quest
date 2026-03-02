@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 import 'package:phishing_quest/app/modules/admin/admin_controller.dart';
 import 'package:phishing_quest/app/modules/admin/admin_view.dart';
+import 'package:phishing_quest/app/modules/email_sim/email_sim_binding.dart';
+import 'package:phishing_quest/app/modules/email_sim/email_detail_view.dart';
+import 'package:phishing_quest/app/modules/email_sim/email_inbox_view.dart';
+import 'package:phishing_quest/app/modules/email_sim/email_sim_result_view.dart';
 import 'package:phishing_quest/app/modules/game/game_binding.dart';
 import 'package:phishing_quest/app/modules/game/game_flow_view.dart';
 import 'package:phishing_quest/app/modules/game/game_result_view.dart';
@@ -34,6 +38,24 @@ class AppPages {
     GetPage(
       name: '/game/result',
       page: () => const GameResultView(),
+      middlewares: [AuthMiddleware()],
+    ),
+
+    // Email Simulation — tela fullscreen fora do shell
+    GetPage(
+      name: '/email-sim',
+      page: () => const EmailInboxView(),
+      binding: EmailSimBinding(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: '/email-sim/detail',
+      page: () => const EmailDetailView(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: '/email-sim/result',
+      page: () => const EmailSimResultView(),
       middlewares: [AuthMiddleware()],
     ),
 

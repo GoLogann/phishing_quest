@@ -38,7 +38,7 @@ class PlayView extends StatelessWidget {
                         Text('Jogar', style: AppTheme.textStyles.display),
                         SizedBox(height: 4.h),
                         Text(
-                          'Escolha uma categoria e dificuldade',
+                          'Escolha um modo de jogo',
                           style: AppTheme.textStyles.posLabel.copyWith(
                             color: AppTheme.colors.textSecondary,
                           ),
@@ -48,115 +48,256 @@ class PlayView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.h),
-                // Difficulty Selection
+                // Game Mode Selection
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Text(
-                    'Dificuldade',
+                    'Modo de Jogo',
                     style: AppTheme.textStyles.subTitle.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 SizedBox(height: 12.h),
-                FadeInLeft(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Wrap(
-                      spacing: 10.w,
-                      runSpacing: 10.h,
-                      children: Difficulty.values.map((difficulty) {
-                        return Obx(() => DifficultyChip(
-                          difficulty: difficulty,
-                          isSelected: controller.selectedDifficulty.value == difficulty,
-                          onTap: () => controller.selectDifficulty(difficulty),
-                        ));
-                      }).toList(),
-                    ),
-                  ),
+                FadeInUp(
+                  child: Obx(() {
+                    final isQuizSelected = controller.selectedMode.value == GameMode.quiz;
+                    return GameCard(
+                      hasGlow: isQuizSelected,
+                      glowColor: AppTheme.colors.accent,
+                      onTap: () => controller.selectMode(GameMode.quiz),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(14.r),
+                            decoration: BoxDecoration(
+                              color: isQuizSelected
+                                  ? AppTheme.colors.accent.withOpacity(0.2)
+                                  : AppTheme.colors.accent.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(14.r),
+                            ),
+                            child: Icon(
+                              Icons.quiz_rounded,
+                              color: isQuizSelected ? AppTheme.colors.accent : AppTheme.colors.textSecondary,
+                              size: 32.sp,
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Quiz Clássico',
+                                  style: AppTheme.textStyles.subTitle.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: isQuizSelected ? AppTheme.colors.accent : null,
+                                  ),
+                                ),
+                                Text(
+                                  'Responda perguntas de múltipla escolha',
+                                  style: AppTheme.textStyles.label.copyWith(
+                                    color: AppTheme.colors.textSecondary,
+                                  ),
+                                  maxLines: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (isQuizSelected)
+                            Icon(
+                              Icons.check_circle,
+                              color: AppTheme.colors.accent,
+                              size: 24.sp,
+                            ),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+                SizedBox(height: 12.h),
+                FadeInUp(
+                  delay: const Duration(milliseconds: 100),
+                  child: Obx(() {
+                    final isEmailSelected = controller.selectedMode.value == GameMode.emailSim;
+                    return GameCard(
+                      hasGlow: isEmailSelected,
+                      glowColor: AppTheme.colors.primary,
+                      onTap: () => controller.selectMode(GameMode.emailSim),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(14.r),
+                            decoration: BoxDecoration(
+                              color: isEmailSelected
+                                  ? AppTheme.colors.primary.withOpacity(0.2)
+                                  : AppTheme.colors.primary.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(14.r),
+                            ),
+                            child: Icon(
+                              Icons.mail_outline_rounded,
+                              color: isEmailSelected ? AppTheme.colors.primary : AppTheme.colors.textSecondary,
+                              size: 32.sp,
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Simulação de Email',
+                                  style: AppTheme.textStyles.subTitle.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: isEmailSelected ? AppTheme.colors.primary : null,
+                                  ),
+                                ),
+                                Text(
+                                  'Identifique phishing em uma caixa de entrada',
+                                  style: AppTheme.textStyles.label.copyWith(
+                                    color: AppTheme.colors.textSecondary,
+                                  ),
+                                  maxLines: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (isEmailSelected)
+                            Icon(
+                              Icons.check_circle,
+                              color: AppTheme.colors.primary,
+                              size: 24.sp,
+                            ),
+                        ],
+                      ),
+                    );
+                  }),
                 ),
                 SizedBox(height: 28.h),
-                // Categories
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Text(
-                    'Categorias',
-                    style: AppTheme.textStyles.subTitle.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12.h),
-                ...controller.categories.asMap().entries.map((entry) {
-                  final category = entry.value;
-                  final index = entry.key;
-                  final icons = {'🏢': Icons.business, '🧠': Icons.psychology, '🔒': Icons.lock};
-                  final iconData = icons[category.icon] ?? Icons.category;
+                // Show category/difficulty selection only if Quiz mode is selected
+                Obx(() {
+                  if (controller.selectedMode.value != GameMode.quiz) {
+                    return const SizedBox.shrink();
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Difficulty Selection
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Text(
+                          'Dificuldade',
+                          style: AppTheme.textStyles.subTitle.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      FadeInLeft(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Wrap(
+                            spacing: 10.w,
+                            runSpacing: 10.h,
+                            children: Difficulty.values.map((difficulty) {
+                              return Obx(() => DifficultyChip(
+                                difficulty: difficulty,
+                                isSelected: controller.selectedDifficulty.value == difficulty,
+                                onTap: () => controller.selectDifficulty(difficulty),
+                              ));
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 28.h),
+                      // Categories
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Text(
+                          'Categorias',
+                          style: AppTheme.textStyles.subTitle.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      ...controller.categories.asMap().entries.map((entry) {
+                        final category = entry.value;
+                        final index = entry.key;
+                        final icons = {'🏢': Icons.business, '🧠': Icons.psychology, '🔒': Icons.lock};
+                        final iconData = icons[category.icon] ?? Icons.category;
 
-                  return FadeInUp(
-                    delay: Duration(milliseconds: index * 100),
-                    child: Obx(() {
-                      final isSelected = controller.selectedCategory.value?.id == category.id;
-                      return GameCard(
-                        hasGlow: isSelected,
-                        glowColor: AppTheme.colors.primary,
-                        onTap: () => controller.selectCategory(category),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(14.r),
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? AppTheme.colors.primary.withOpacity(0.2)
-                                    : AppTheme.colors.primary.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(14.r),
-                              ),
-                              child: Icon(
-                                iconData,
-                                color: isSelected ? AppTheme.colors.primary : AppTheme.colors.textSecondary,
-                                size: 28.sp,
-                              ),
-                            ),
-                            SizedBox(width: 16.w),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        return FadeInUp(
+                          delay: Duration(milliseconds: index * 100),
+                          child: Obx(() {
+                            final isSelected = controller.selectedCategory.value?.id == category.id;
+                            return GameCard(
+                              hasGlow: isSelected,
+                              glowColor: AppTheme.colors.primary,
+                              onTap: () => controller.selectCategory(category),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    category.categoryName,
-                                    style: AppTheme.textStyles.subTitle.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: isSelected ? AppTheme.colors.primary : null,
+                                  Container(
+                                    padding: EdgeInsets.all(14.r),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? AppTheme.colors.primary.withOpacity(0.2)
+                                          : AppTheme.colors.primary.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(14.r),
+                                    ),
+                                    child: Icon(
+                                      iconData,
+                                      color: isSelected ? AppTheme.colors.primary : AppTheme.colors.textSecondary,
+                                      size: 28.sp,
                                     ),
                                   ),
-                                  if (category.description != null)
-                                    Text(
-                                      category.description!,
-                                      style: AppTheme.textStyles.label.copyWith(
-                                        color: AppTheme.colors.textSecondary,
-                                      ),
-                                      maxLines: 2,
+                                  SizedBox(width: 16.w),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          category.categoryName,
+                                          style: AppTheme.textStyles.subTitle.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: isSelected ? AppTheme.colors.primary : null,
+                                          ),
+                                        ),
+                                        if (category.description != null)
+                                          Text(
+                                            category.description!,
+                                            style: AppTheme.textStyles.label.copyWith(
+                                              color: AppTheme.colors.textSecondary,
+                                            ),
+                                            maxLines: 2,
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (isSelected)
+                                    Icon(
+                                      Icons.check_circle,
+                                      color: AppTheme.colors.primary,
+                                      size: 24.sp,
                                     ),
                                 ],
                               ),
-                            ),
-                            if (isSelected)
-                              Icon(
-                                Icons.check_circle,
-                                color: AppTheme.colors.primary,
-                                size: 24.sp,
-                              ),
-                          ],
-                        ),
-                      );
-                    }),
+                            );
+                          }),
+                        );
+                      }),
+                      SizedBox(height: 12.h),
+                    ],
                   );
                 }),
-                SizedBox(height: 32.h),
+                SizedBox(height: 20.h),
                 // Start Game Button
                 FadeInUp(
                   child: Obx(() {
-                    final hasSelection = controller.selectedCategory.value != null;
+                    final isEmailMode = controller.selectedMode.value == GameMode.emailSim;
+                    final hasSelection = isEmailMode || controller.selectedCategory.value != null;
+                    final buttonText = isEmailMode ? 'Iniciar Simulação' : 'Iniciar Partida';
+                    
                     return GestureDetector(
                       onTap: hasSelection ? controller.startGame : null,
                       child: Container(
@@ -167,8 +308,8 @@ class PlayView extends StatelessWidget {
                           gradient: hasSelection
                               ? LinearGradient(
                                   colors: [
-                                    AppTheme.colors.accent,
-                                    AppTheme.colors.accent.withOpacity(0.8),
+                                    isEmailMode ? AppTheme.colors.primary : AppTheme.colors.accent,
+                                    (isEmailMode ? AppTheme.colors.primary : AppTheme.colors.accent).withOpacity(0.8),
                                   ],
                                 )
                               : null,
@@ -176,7 +317,7 @@ class PlayView extends StatelessWidget {
                           boxShadow: hasSelection
                               ? [
                                   BoxShadow(
-                                    color: AppTheme.colors.accent.withOpacity(0.4),
+                                    color: (isEmailMode ? AppTheme.colors.primary : AppTheme.colors.accent).withOpacity(0.4),
                                     blurRadius: 16,
                                     offset: const Offset(0, 6),
                                   ),
@@ -187,13 +328,13 @@ class PlayView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.play_arrow_rounded,
+                              isEmailMode ? Icons.mail_outline_rounded : Icons.play_arrow_rounded,
                               color: hasSelection ? Colors.white : AppTheme.colors.textMuted,
                               size: 28.sp,
                             ),
                             SizedBox(width: 8.w),
                             Text(
-                              'Iniciar Partida',
+                              buttonText,
                               style: AppTheme.textStyles.title.copyWith(
                                 color: hasSelection ? Colors.white : AppTheme.colors.textMuted,
                                 fontWeight: FontWeight.w700,
