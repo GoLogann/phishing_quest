@@ -4,8 +4,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:phishing_quest/app/data/services/auth_service.dart';
 import 'package:phishing_quest/app/data/util/helpers/index.dart';
 import 'package:phishing_quest/app/modules/initial/flow_initial/flow_initial_module.dart';
+import 'package:phishing_quest/app/modules/main_shell/main_shell_module.dart';
 
 import 'app/data/providers/pq_api_client/pq_api_client.provider.dart';
 import 'app/main_getx_app.dart';
@@ -26,11 +28,14 @@ void main() async {
       builder: (_, __) => MainGetXApp(initialPage),
     ),
   );
-
 }
 
 String getInitPage() {
-  return  FlowInitialModule.path;
+  final auth = Get.find<AuthService>();
+  if (auth.isLoggedIn.value) {
+    return MainShellModule.path;
+  }
+  return FlowInitialModule.path;
 }
 
 Future<void> initProviders() async {
@@ -39,6 +44,10 @@ Future<void> initProviders() async {
 
   await Helpers().setLocalMode(false);
   await Get.put<PqApiClient>(PqApiClient());
+
+  // Auth Service — precisa ser sincronizado antes de decidir a rota inicial
+  final authService = Get.put(AuthService(), permanent: true);
+  await authService.init();
 
   await ScreenUtil.ensureScreenSize();
 }
