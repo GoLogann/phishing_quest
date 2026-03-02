@@ -46,9 +46,8 @@ class _BorderInputState extends State<BorderInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: .2.sh),
-      padding: EdgeInsets.symmetric(horizontal: widget.paddingHorizontal ?? 16.w),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: widget.paddingHorizontal ?? 0),
       child: TextFormField(
         readOnly: widget.isDisabled,
         keyboardType: widget.type ?? TextInputType.text,
@@ -75,27 +74,46 @@ class _BorderInputState extends State<BorderInput> {
             bottom: 18.h,
           ),
           filled: true,
-          fillColor: AppTheme.colors.white,
+          fillColor: AppTheme.colors.backgroundCard,
           suffixIcon: (!widget.isPassword)
-              ? Padding(
-                  padding: EdgeInsets.only(left: 8.w, right: 15.w),
-                  child: ImageIcon(
-                    widget.icon,
-                    color: AppTheme.colors.primary,
-                  ),
-                )
+              ? (widget.icon != null
+                  ? Padding(
+                      padding: EdgeInsets.only(left: 8.w, right: 15.w),
+                      child: ImageIcon(
+                        widget.icon,
+                        color: AppTheme.colors.primary,
+                      ),
+                    )
+                  : null)
               : buildSuffixIcon(),
           hintText: widget.hint,
           border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(16.r), // NOTE: 40.w
+            borderSide: BorderSide(color: AppTheme.colors.surfaceBorder),
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppTheme.colors.surfaceBorder),
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppTheme.colors.primary, width: 1.5),
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppTheme.colors.error),
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppTheme.colors.error, width: 1.5),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           hintStyle: AppTheme.textStyles.posLabel.copyWith(
-            color: AppTheme.colors.primaryLight,
+            color: AppTheme.colors.textMuted,
           ),
+          errorStyle: TextStyle(color: AppTheme.colors.error, fontSize: 12.sp),
         ),
         style: AppTheme.textStyles.posLabel.copyWith(
-          color: AppTheme.colors.primaryDark,
+          color: AppTheme.colors.textPrimary,
         ),
       ),
     );
@@ -110,7 +128,7 @@ class _BorderInputState extends State<BorderInput> {
         child: Icon(
           icon,
           size: 25.sp,
-          color: AppTheme.colors.primary,
+          color: AppTheme.colors.textSecondary,
         ),
       ),
     );
