@@ -1,6 +1,5 @@
-import 'package:phishing_quest/app/data/enumerators/endpoints.enum.dart';
 import 'package:phishing_quest/app/data/repositories/register/register_repository.interface.dart';
-import 'package:phishing_quest/app/data/request_repository.dart';
+import 'package:phishing_quest/app/data/repositories/request_repository.dart';
 
 final class RegisterRepository extends RequestRepository implements IRegisterRepository {
   static const String registerAuth = '/users';
@@ -10,7 +9,7 @@ final class RegisterRepository extends RequestRepository implements IRegisterRep
       {required String username,
       required String email,
       required String password}) async {
-    final url = 'https://44d3-45-228-140-19.ngrok-free.app/api/v1/users';//apiHelpers.buildUrl(url: registerAuth, endpoint: Endpoints.PHISHING_QUEST);
+    final url = apiHelpers.buildUrl(url: registerAuth);
 
     final bodyRegister = {
       'username': username,
